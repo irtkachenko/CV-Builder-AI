@@ -48,3 +48,4 @@ integrations = ["javascript_log_in_with_replit:2.0.0", "javascript_openrouter_ai
 AI_REQUESTS_PER_HOUR = "20"
 AI_REQUEST_WINDOW_MS = "3600000"
 AI_MAX_GENERATED_HTML_CHARS = "500000"
+AI_VALIDATION_TEMPERATURE = "0.7"
