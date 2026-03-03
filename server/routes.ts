@@ -196,7 +196,7 @@ export async function registerRoutes(
         progress: userFriendlyStatus,
         originalDocText,
         originalDocLinks,
-        name: req.file.originalname,
+        name: req.file.originalname.replace(/\.[^/.]+$/, ""), // Remove file extension
       });
 
       // 3. Start async generation
