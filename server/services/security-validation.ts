@@ -26,10 +26,9 @@ export const HTML_PATTERNS = [
   /<meta[^>]*http-equiv=["']?refresh/i,
 ];
 
-// Combined Security Patterns
+// Combined Security Patterns (only XSS patterns for HTML validation)
 export const SECURITY_PATTERNS = [
   ...XSS_PATTERNS,
-  ...SQL_PATTERNS,
 ];
 
 // Validation Functions
