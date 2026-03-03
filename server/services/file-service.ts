@@ -1,17 +1,16 @@
 import mammoth from "mammoth";
-import { docxFileSchema } from "@shared/routes";
+import { appConfig } from "../config/app-config";
 import type { OriginalDocLink } from "@shared/schema";
 
-const MAX_LINK_TEXT_LENGTH = 300;
-const MAX_LINK_HREF_LENGTH = 2048;
-const MAX_LINKS_COUNT = 200;
+import { docxFileSchema } from "@shared/routes";
+import { sanitizeField, sanitizeHtmlContent } from "../middleware/input-sanitizer";
+
+const MAX_LINK_TEXT_LENGTH = appConfig.security.maxLinkTextLength;
+const MAX_LINK_HREF_LENGTH = appConfig.security.maxLinkHrefLength;
+const MAX_LINKS_COUNT = appConfig.security.maxLinksCount;
 
 function normalizeWhitespace(input: string): string {
   return input.replace(/\s+/g, " ").trim();
-}
-
-function stripHtmlTags(input: string): string {
-  return input.replace(/<[^>]+>/g, " ");
 }
 
 function decodeBasicEntities(input: string): string {
@@ -53,7 +52,7 @@ function sanitizeLink(rawText: string, rawHref: string): OriginalDocLink | null 
   const href = sanitizeHref(rawHref);
   if (!href) return null;
 
-  const text = normalizeWhitespace(decodeBasicEntities(stripHtmlTags(rawText))).slice(0, MAX_LINK_TEXT_LENGTH);
+  const text = normalizeWhitespace(sanitizeField(decodeBasicEntities(rawText))).slice(0, MAX_LINK_TEXT_LENGTH);
   return { text, href };
 }
 
@@ -80,43 +79,8 @@ function extractLinksFromHtml(html: string): OriginalDocLink[] {
   return links;
 }
 
-// Extract text from .docx file using mammoth
-export async function extractTextFromDocx(buffer: Buffer): Promise<{
-  text: string;
-  links: OriginalDocLink[];
-  success: boolean;
-  error?: string;
-}> {
-  try {
-    const textResult = await mammoth.extractRawText({ buffer });
-    let links: OriginalDocLink[] = [];
-
-    try {
-      const htmlResult = await mammoth.convertToHtml({ buffer });
-      links = extractLinksFromHtml(htmlResult.value || "");
-    } catch (linksError) {
-      // Link extraction is best-effort and must not fail full processing
-      links = [];
-    }
-
-    return {
-      text: textResult.value,
-      links,
-      success: true,
-    };
-  } catch (error) {
-    console.error("Error extracting text from docx:", error);
-    return {
-      text: "",
-      links: [],
-      success: false,
-      error: error instanceof Error ? error.message : "Failed to extract text from file",
-    };
-  }
-}
-
 // Define file interface
-interface UploadedFile {
+export interface UploadedFile {
   fieldname: string;
   originalname: string;
   encoding: string;
@@ -166,6 +130,41 @@ export function validateUploadedFile(file: UploadedFile): {
   }
 }
 
+// Extract text from .docx file using mammoth
+export async function extractTextFromDocx(buffer: Buffer): Promise<{
+  text: string;
+  links: OriginalDocLink[];
+  success: boolean;
+  error?: string;
+}> {
+  try {
+    const textResult = await mammoth.extractRawText({ buffer });
+    let links: OriginalDocLink[] = [];
+
+    try {
+      const htmlResult = await mammoth.convertToHtml({ buffer });
+      links = extractLinksFromHtml(htmlResult.value || "");
+    } catch (linksError) {
+      // Link extraction is best-effort and must not fail full processing
+      links = [];
+    }
+
+    return {
+      text: textResult.value,
+      links,
+      success: true,
+    };
+  } catch (error) {
+    console.error("Error extracting text from docx:", error);
+    return {
+      text: "",
+      links: [],
+      success: false,
+      error: error instanceof Error ? error.message : "Failed to extract text from file",
+    };
+  }
+}
+
 // Process uploaded file and extract text + links
 export async function processUploadedFile(file: UploadedFile): Promise<{
   text: string;
@@ -186,4 +185,3 @@ export async function processUploadedFile(file: UploadedFile): Promise<{
 
   return extractTextFromDocx(file.buffer);
 }
-

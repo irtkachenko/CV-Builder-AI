@@ -1,8 +1,14 @@
 import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes";
+import { registerApiRoutes } from "./api";
 import { serveStatic } from "./static";
 import { createServer } from "http";
 import rateLimit from "express-rate-limit";
+import { appConfig } from "./config/app-config";
+import { globalErrorHandler, notFoundHandler, setupErrorHandlers } from "./middleware/error-handler";
+import { validateStartup } from "./middleware/startup-validation";
+import { logger } from "./services/logger-service";
+import { inputSanitizerMiddleware, htmlSanitizerMiddleware } from "./middleware/input-sanitizer";
+import { getSecurityMiddleware } from "./middleware/security-headers";
 
 const app = express();
 const httpServer = createServer(app);
@@ -25,8 +31,8 @@ app.use(
 app.use(express.urlencoded({ extended: false }));
 
 const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 200,
+  windowMs: appConfig.rateLimits.apiRequestsWindowMs,
+  max: appConfig.rateLimits.apiRequestsPer15Minutes,
   standardHeaders: true,
   legacyHeaders: false,
   message: { message: "Too many requests, please try again later." },
@@ -34,16 +40,12 @@ const apiLimiter = rateLimit({
 
 app.use("/api", apiLimiter);
 
-export function log(message: string, source = "express") {
-  const formattedTime = new Date().toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: true,
-  });
+// Security headers middleware
+app.use(getSecurityMiddleware());
 
-  console.log(`${formattedTime} [${source}] ${message}`);
-}
+// Input sanitization middleware
+app.use(inputSanitizerMiddleware);
+app.use(htmlSanitizerMiddleware);
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -59,12 +61,19 @@ app.use((req, res, next) => {
   res.on("finish", () => {
     const duration = Date.now() - start;
     if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
+      let logMessage = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
       if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
+        logMessage += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
 
-      log(logLine);
+      logger.info(logMessage, {
+        method: req.method,
+        path,
+        statusCode: res.statusCode,
+        duration,
+        ip: req.ip,
+        userAgent: req.get('User-Agent')
+      });
     }
   });
 
@@ -72,24 +81,20 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  await registerRoutes(httpServer, app);
+  // 1. Validate startup configuration first
+  await validateStartup();
 
-  app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
+  // 2. Setup error handlers
+  setupErrorHandlers();
 
-    console.error("Internal Server Error:", err);
+  // 3. Register API routes
+  await registerApiRoutes(app);
 
-    if (res.headersSent) {
-      return next(err);
-    }
+  // 4. Setup 404 and error handlers
+  app.use(notFoundHandler);
+  app.use(globalErrorHandler);
 
-    return res.status(status).json({ message });
-  });
-
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
+  // 5. Setup development or production server
   if (process.env.NODE_ENV === "production") {
     serveStatic(app);
   } else {
@@ -109,7 +114,7 @@ app.use((req, res, next) => {
       reusePort: true,
     },
     () => {
-      log(`serving on port ${port}`);
+      logger.info(`Server ready on port ${port}`, { port });
     },
   );
 })();

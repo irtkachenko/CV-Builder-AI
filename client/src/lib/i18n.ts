@@ -57,7 +57,12 @@ const resources = {
                 "generate_start_failed": "Failed to start CV generation",
                 "fetch_job_status_failed": "Failed to fetch job status",
                 "resume_not_found": "Resume not found",
-                "delete_resume_failed": "Failed to delete resume"
+                "delete_resume_failed": "Failed to delete resume",
+                "rate_limit_exceeded": "Rate limit exceeded",
+                "file_upload_failed": "File upload failed",
+                "ai_service_error": "AI service error",
+                "forbidden": "Access denied",
+                "not_found": "Resource not found"
             },
             "file_validation": {
                 "size_max": "File size must be less than 5MB",
@@ -268,7 +273,12 @@ const resources = {
                 "generate_start_failed": "Не вдалося запустити генерацію резюме",
                 "fetch_job_status_failed": "Не вдалося отримати статус генерації",
                 "resume_not_found": "Резюме не знайдено",
-                "delete_resume_failed": "Не вдалося видалити резюме"
+                "delete_resume_failed": "Не вдалося видалити резюме",
+                "rate_limit_exceeded": "Перевищено ліміт запитів",
+                "file_upload_failed": "Помилка завантаження файлу",
+                "ai_service_error": "Помилка сервісу ШІ",
+                "forbidden": "Доступ заборонено",
+                "not_found": "Ресурс не знайдено"
             },
             "file_validation": {
                 "size_max": "Розмір файлу має бути меншим за 5 МБ",
