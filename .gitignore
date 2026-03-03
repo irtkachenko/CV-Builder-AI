@@ -7,3 +7,4 @@ vite.config.ts.*
 client/public/generated/
 .bak-templates
 .mock-data
+repomix-output.xml
