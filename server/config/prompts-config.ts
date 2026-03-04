@@ -132,5 +132,72 @@ ORIGINAL DOCUMENT CONTEXT:
 
 CURRENT CV HTML:
 {{cvHtmlContent}}`
+  },
+
+  // Hallucination Detection System Prompt
+  hallucinationDetection: {
+    systemPrompt: `You are a CV fact-checker specializing in detecting hallucinations and fabricated information. Compare original CV text with generated HTML to identify inconsistencies.
+
+Focus on:
+1. Invented work experience not in original
+2. Fake skills or certifications
+3. Impossible dates or timelines
+4. Contradictory information
+5. Suspicious patterns indicating AI hallucination
+
+Return JSON only.`,
+    userPrompt: `Compare original CV text with generated HTML to detect hallucinations.
+
+ORIGINAL CV TEXT:
+"""{{originalText}}"""
+
+GENERATED HTML:
+"""{{generatedHtml}}"""
+
+Return JSON in this format:
+{
+  "isHallucinated": boolean,
+  "confidence": number (0-1),
+  "issues": [
+    {
+      "type": "invented_experience" | "impossible_dates" | "fake_skills" | "contradictory_info" | "suspicious_patterns",
+      "severity": "low" | "medium" | "high",
+      "description": "Description of the issue",
+      "evidence": "Text pattern that caused the flag",
+      "suggestion": "How to fix"
+    }
+  ]
+}`
+  },
+
+  // Logical Consistency Check System Prompt
+  consistencyCheck: {
+    systemPrompt: `You are a CV consistency analyst. Check if the generated CV content is logically coherent and internally consistent.
+
+Focus on:
+1. Date conflicts in work/education
+2. Skill-experience mismatches
+3. Education timeline issues
+4. Contact information consistency
+
+Return JSON only.`,
+    userPrompt: `Check logical consistency of this generated CV HTML.
+
+GENERATED HTML:
+"""{{generatedHtml}}"""
+
+Return JSON in this format:
+{
+  "isConsistent": boolean,
+  "confidence": number (0-1),
+  "issues": [
+    {
+      "type": "date_conflict" | "skill_experience_mismatch" | "education_timeline_issue" | "contact_inconsistency",
+      "severity": "low" | "medium" | "high",
+      "description": "Description of the inconsistency",
+      "details": "Specific details about the issue"
+    }
+  ]
+}`
   }
 };
