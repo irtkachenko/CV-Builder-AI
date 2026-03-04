@@ -17,7 +17,8 @@ export const securityConfig = {
         "'unsafe-inline'", // Для inline скриптів в development
         "https://cdn.replit.com", // Replit CDN
         "https://cdn.jsdelivr.net",
-        "https://unpkg.com"
+        "https://unpkg.com",
+        "https://cdnjs.cloudflare.com" // Для html2pdf.js
       ],
       
       // Стилі - дозволяємо inline стилі для CV
