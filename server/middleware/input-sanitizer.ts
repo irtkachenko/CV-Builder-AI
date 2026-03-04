@@ -1,9 +1,16 @@
 import type { Request, Response, NextFunction } from 'express';
 import DOMPurify from 'dompurify';
+import { JSDOM } from 'jsdom';
 import { createLogger } from '../services/logger-service';
 import { ValidationError } from './error-handler';
 
 const logger = createLogger('INPUT_SANITIZER');
+
+// Створюємо DOM середовище для DOMPurify
+const window = new JSDOM('').window;
+
+// Ініціалізуємо DOMPurify з DOM середовищем
+const purify = DOMPurify(window);
 
 // Конфігурація DOMPurify для максимальної безпеки
 const purifyConfig = {
@@ -40,7 +47,7 @@ function sanitizeWithDOMPurify(dirty: string): string {
     return dirty;
   }
   
-  return DOMPurify.sanitize(dirty, purifyConfig);
+  return purify.sanitize(dirty, purifyConfig);
 }
 
 // Санітизація рядкових полів з додатковою валідацією
@@ -50,7 +57,7 @@ function sanitizeString(value: any): string {
   }
 
   // Спочатку DOMPurify для XSS захисту
-  let sanitized = DOMPurify.sanitize(value, purifyConfig);
+  let sanitized = purify.sanitize(value, purifyConfig);
   
   // Додаткова валідація для SQL injection
   const sqlPatterns = [
