@@ -64,6 +64,7 @@ export function useCvIframePreview({
   const [iframeHeight, setIframeHeight] = useState(defaultHeight);
   const [iframeReady, setIframeReady] = useState(false);
   const iframeWatchCleanupRef = useRef<(() => void) | null>(null);
+  const measuredHeightRef = useRef(0);
 
   const scaleDepsKey = useMemo(
     () => `${enabled ? 1 : 0}:${paddingPx}:${sourceUrl || ""}`,
@@ -106,6 +107,7 @@ export function useCvIframePreview({
     if (!enabled) return;
     setIframeReady(false);
     setIframeHeight(defaultHeight);
+    measuredHeightRef.current = 0;
     iframeWatchCleanupRef.current?.();
     iframeWatchCleanupRef.current = null;
   }, [enabled, sourceUrl, defaultHeight]);
@@ -126,7 +128,11 @@ export function useCvIframePreview({
       const measureAndCommit = () => {
         const height = getMeasuredHeight(iframe);
         if (height > 0) {
-          setIframeHeight(`${Math.ceil(height)}px`);
+          const nextHeight = Math.ceil(height);
+          if (nextHeight > measuredHeightRef.current) {
+            measuredHeightRef.current = nextHeight;
+            setIframeHeight(`${nextHeight}px`);
+          }
         }
         setIframeReady(true);
       };

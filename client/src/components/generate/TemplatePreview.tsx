@@ -15,7 +15,11 @@ export function TemplatePreview({ template }: TemplatePreviewProps) {
         {t("modal.selected_template")}
       </h3>
       <div className="relative w-full max-w-[160px] sm:max-w-[200px] lg:max-w-none aspect-[1/1.4] rounded-lg overflow-hidden shadow-lg border border-border/50 bg-white">
-        <SmartImage src={template.screenshotUrl} alt={template.name} />
+        <SmartImage
+          src={template.screenshotUrl}
+          alt={template.name}
+          imgClassName="object-contain bg-white"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-1.5 sm:p-2 lg:p-4">
           <span className="text-white font-medium text-xs sm:text-xs lg:text-sm">
             {template.name}
