@@ -8,6 +8,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import type { GeneratedCvResponse } from "@shared/routes";
 import { useTranslation } from "react-i18next";
 import { useCvIframePreview } from "@/hooks/use-cv-iframe-preview";
+import { SmartImage } from "@/components/ui/smart-image";
 
 export function CvStatusCard({ cv }: { cv: GeneratedCvResponse }) {
   const { t } = useTranslation();
@@ -151,13 +152,10 @@ export function CvStatusCard({ cv }: { cv: GeneratedCvResponse }) {
                 </div>
               </div>
             ) : templateScreenshot ? (
-              <img
+              <SmartImage
                 src={templateScreenshot}
                 alt={displayName}
-                className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${isProcessing ? 'opacity-30 grayscale' : ''}`}
-                onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
-                  e.currentTarget.src = 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&q=80'
-                }}
+                imgClassName={`transition-transform duration-500 group-hover:scale-105 ${isProcessing ? 'opacity-30 grayscale' : ''}`}
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-muted-foreground">

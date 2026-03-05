@@ -4,16 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV - Catherine Bale</title>
+    <title>CV - Andrew O'Sullivan</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
 
         :root {
-            --accent-black: #000;
-            --text-main: #333;
-            --text-secondary: #666;
-            --bg-body: #fff;
-            --font-main: 'Poppins', sans-serif;
+            --text-color: #000;
+            --secondary-text: #333;
+            --line-color: #000;
+            --font-main: 'Source Sans Pro', sans-serif;
+            --font-header: 'Playfair Display', serif;
         }
 
         * {
@@ -24,8 +24,8 @@
 
         body {
             font-family: var(--font-main);
-            background-color: #f8f8f8;
-            color: var(--text-main);
+            background-color: #f0f0f0;
+            color: var(--text-color);
             line-height: 1.4;
             display: flex;
             justify-content: center;
@@ -34,164 +34,162 @@
         }
 
         .container {
-            background-color: var(--bg-body);
+            background-color: #fff;
             width: 210mm;
             min-height: 297mm;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+            padding: 50px 60px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin: 0;
         }
 
         header {
-            background-color: #0c3d42;
-            background-image: linear-gradient(45deg, #0c3d42 25%, #0a3337 25%, #0a3337 50%, #0c3d42 50%, #0c3d42 75%, #0a3337 75%, #0a3337 100%);
-            background-size: 40px 40px;
-            color: #fff;
-            padding: 50px 70px;
+            text-align: center;
+            margin-bottom: 30px;
         }
 
         header h1 {
-            font-size: 38px;
-            font-weight: 700;
+            font-family: var(--font-header);
+            font-size: 36px;
             margin-bottom: 5px;
         }
 
         header .title {
-            font-size: 22px;
             font-style: italic;
-            opacity: 0.9;
-            margin-bottom: 25px;
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--secondary-text);
         }
 
-        .contact-row {
+        .contact-info {
             display: flex;
-            gap: 25px;
-            font-size: 14px;
+            justify-content: center;
+            gap: 20px;
+            font-size: 13px;
             flex-wrap: wrap;
         }
 
-        .contact-item {
+        .contact-info div {
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        main {
-            padding: 50px 70px;
+            gap: 5px;
         }
 
         section {
-            margin-bottom: 35px;
+            margin-bottom: 25px;
         }
 
         h2 {
             font-size: 18px;
             font-weight: 700;
-            margin-bottom: 8px;
-            text-transform: capitalize;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--line-color);
+            padding-bottom: 3px;
+            margin-bottom: 12px;
         }
 
-        .section-line {
-            height: 4px;
-            background-color: var(--accent-black);
-            width: 60px;
+        .experience-item,
+        .education-item {
             margin-bottom: 15px;
         }
 
-        .summary {
-            font-size: 13.5px;
-            color: var(--text-main);
-            margin-bottom: 15px;
-        }
-
-        .exp-item,
-        .edu-item {
-            margin-bottom: 20px;
-        }
-
-        .item-row {
+        .item-header {
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 3px;
+            align-items: flex-start;
+            margin-bottom: 4px;
         }
 
         .item-title {
             font-weight: 700;
-            font-size: 14px;
+            font-size: 15px;
         }
 
-        .item-title span {
-            font-weight: 500;
-            font-style: italic;
-            color: var(--text-secondary);
-        }
-
-        .item-meta {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .item-desc {
+        .item-date {
             font-size: 13px;
         }
 
-        .pill-grid {
+        .item-subtitle {
             display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin: 12px 0;
-        }
-
-        .pill {
-            background-color: #000;
-            color: #fff;
-            padding: 8px 18px;
-            border-radius: 6px;
+            justify-content: space-between;
+            font-style: italic;
             font-size: 13px;
-            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--secondary-text);
         }
 
-        .skills-grid {
+        ul {
+            list-style: none;
+            padding-left: 15px;
+        }
+
+        li {
+            position: relative;
+            font-size: 13.5px;
+            margin-bottom: 4px;
+            padding-left: 15px;
+        }
+
+        li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .profile-text {
+            font-size: 13.5px;
+            text-align: justify;
+        }
+
+        .languages-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px 60px;
-            margin: 30px 0;
+            gap: 20px;
         }
 
-        .skill-item {
-            margin-bottom: 15px;
-        }
-
-        .skill-name {
+        .lang-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ddd;
+        }
+
+        .dot.filled {
+            background-color: #000;
+        }
+
+        .awards-item {
+            margin-bottom: 10px;
+        }
+
+        .award-name {
             font-weight: 700;
-            margin-bottom: 6px;
+            font-size: 14px;
         }
 
-        .progress-bar {
-            height: 8px;
-            background-color: #eee;
-            width: 100%;
-            position: relative;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background-color: var(--accent-black);
-        }
-
-        .skill-desc {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 5px;
-            line-height: 1.3;
+        .award-subtitle {
+            font-style: italic;
+            font-size: 13px;
+            color: var(--secondary-text);
         }
 
         @media print {
             body {
-                padding: 0;
                 background: none;
+                padding: 0;
                 margin: 0;
             }
 
@@ -200,10 +198,6 @@
                 width: 100%;
                 margin: 0;
             }
-
-            header {
-                -webkit-print-color-adjust: exact;
-            }
         }
     </style>
 </head>
@@ -211,152 +205,159 @@
 <body>
     <div class="container">
         <header>
-            <h1>Catherine Bale</h1>
-            <p class="title">Marketing Assistant</p>
-            <div class="contact-row">
-                <div class="contact-item">📍 22611 Pacific Coast Hwy, Malibu California 9022 USA</div>
-                <div class="contact-item">📞 +1+541+754-3010</div>
-                <div class="contact-item">✉ c.bale@bale.com</div>
-                <div class="contact-item"> bale2345</div>
+            <h1>Andrew O'Sullivan</h1>
+            <p class="title">Product Manager</p>
+            <div class="contact-info">
+                <div>📍 Obere Lände 23, 12345 Berlin</div>
+                <div>✉ andrew@sulli.com</div>
+                <div>📞 +01 11111155</div>
+                <div>in andrewosullivan</div>
             </div>
         </header>
 
         <main>
             <section id="profile">
-                <h2 class="">Profile</h2>
-                <div class=" section-line"></div>
-                <p class=" summary">
-                    To obtain a challenging marketing position with a reputable company where I can utilize my marketing
-                    skills and experience to drive business growth.
+                <h2 class="">PROFILE</h2>
+                <p class=" profile-text">
+                    Experienced Product Manager with a proven track record in the development and management of products
+                    throughout their lifecycle. Passionate, creative, and results-oriented. Skilled in team leadership
+                    and
+                    collaboration with cross-functional teams. Excellent communication skills and strategic thinking.
+                    Enthusiastic about designing innovative solutions that enhance customer satisfaction.
                 </p>
             </section>
 
             <section id="experience">
-                <h2 class="">Professional Experience</h2>
-                <div class=" section-line"></div>
+                <h2 class="">PROFESSIONAL EXPERIENCE</h2>
 
-                <div class=" exp-item">
-                    <div class=" item-row">
-                        <p class=" item-title">Acme Corporation, <span class="">Marketing Manager</span></p>
-                        <p class=" item-meta">2019 – present | Milwaukee</p>
+                <div class=" experience-item">
+                    <div class=" item-header">
+                        <span class=" item-title">Product Manager</span>
+                        <span class=" item-date">08/2018 – 07/2023</span>
                     </div>
-                    <p class=" item-desc">Developed and executed marketing strategies to increase brand awareness and
-                        drive sales</p>
+                    <div class=" item-subtitle">
+                        <span class="">Technite Gmbh</span>
+                        <span class="">Berlin, Germany</span>
+                    </div>
+                    <ul class="">
+                        <li class="">Led a cross-functional team of 10 people in the development of a new product line,
+                            resulting in
+                            a 20% increase in revenue</li>
+                        <li class="">Conducted market analysis and competitive studies to identify new product
+                            opportunities and
+                            expand the product portfolio</li>
+                        <li class="">Successfully launched two new products in the market, leading to a 15% increase in
+                            market share
+                        </li>
+                    </ul>
                 </div>
 
-                <div class=" exp-item">
-                    <div class=" item-row">
-                        <p class=" item-title">Global Industries, <span class="">Marketing Coordinator</span></p>
-                        <p class=" item-meta">2017 – 2019 | Grand Island</p>
+                <div class=" experience-item">
+                    <div class=" item-header">
+                        <span class=" item-title">Product Specialist</span>
+                        <span class=" item-date">04/2015 – 07/2018</span>
                     </div>
-                    <p class=" item-desc">Assisted in the development and execution of marketing campaigns to promote
-                        products and services</p>
+                    <div class=" item-subtitle">
+                        <span class="">Solutions Inc</span>
+                        <span class="">Munich, Germany</span>
+                    </div>
+                    <ul class="">
+                        <li class="">Developed and implemented a product strategy for the European market, resulting in
+                            a 25% revenue
+                            growth</li>
+                        <li class="">Conducted training sessions and presentations for customers and sales teams to
+                            enhance product
+                            knowledge</li>
+                        <li class="">Analyzed customer feedback and derived product improvements, resulting in a 20%
+                            increase in
+                            customer satisfaction</li>
+                    </ul>
                 </div>
             </section>
 
             <section id="skills">
-                <h2 class="">Skills</h2>
-                <div class=" section-line"></div>
-                <div class="pill-grid">
-                    <!-- no more than 5 elements -->
-                    <div class="pill">JavaScript (ES6+)</div>
-                    <div class="pill">Vue</div>
-                    <div class="pill">React</div>
-                    <div class="pill">shadcn/ui</div>
-                    <div class="pill">Next</div>
-                </div>
-
-                <div class="pill-grid">
-                    <!-- no more than 5 elements -->
-                    <div class="pill">Express</div>
-                    <div class="pill">Node</div>
-                    <div class="pill">Vite</div>
-                    <div class="pill">Supabase</div>
-                    <div class="pill">Vercel</div>
-                </div>
-
-                <div class="pill-grid">
-                    <!-- no more than 5 elements -->
-                    <div class="pill">Python</div>
-                    <div class="pill">FastAPI</div>
-                    <div class="pill">Django</div>
-                    <div class="pill">HTML5/CSS3 (SCSS)</div>
-                    <div class="pill">Responsive design</div>
-                </div>
-
-                <div class="pill-grid">
-                    <!-- no more than 5 elements -->
-                    <div class="pill">Tailwind</div>
-                    <div class="pill">API</div>
-                    <div class="pill">HTTP</div>
-                    <div class="pill">Data Extraction</div>
-                    <div class="pill">Web Scraping</div>
-                </div>
-
-                <div class="pill-grid">
-                    <!-- no more than 5 elements -->
-                    <div class="pill">MongoDB</div>
-                    <div class="pill">Postgres</div>
-                    <div class="pill">Docker</div>
-                    <div class="pill">Git</div>
-                    <div class="pill">GitHub</div>
-                </div>
-
-                <div class="pill-grid">
-                    <!-- no more than 5 elements -->
-                    <div class="pill">Jira</div>
-                    <div class="pill">Linear</div>
-                    <div class="pill">Windsurf</div>
-                    <div class="pill">Antigravity</div>
-                    <div class="pill">Codex</div>
-                </div>
-
-                <div class="pill-grid">
-                    <!-- no more than 5 elements -->
-                    <div class="pill">Advanced Prompting</div>
-                    <div class="pill">Gemini</div>
-                    <div class="pill">ChatGPT</div>
-                    <div class="pill">Claude</div>
-                    <div class="pill">SWE</div>
-                </div>
-
-                <div class="pill-grid">
-                    <!-- no more than 5 elements -->
-                    <div class="pill">n8n</div>
-                    <div class="pill">Replit</div>
-                    <div class="pill">V0</div>
-                </div>
+                <h2 class="">SKILLS</h2>
+                <ul class="">
+                    <li class="">Product development and strategy</li>
+                    <li class="">Project management and team leadership</li>
+                    <li class="">Customer needs analysis and market research</li>
+                    <li class="">Agile methods and Scrum</li>
+                    <li class="">Data analysis</li>
+                    <li class="">Presentation and communication</li>
+                </ul>
             </section>
 
             <section id="education">
-                <h2 class="">Education</h2>
-                <div class=" section-line"></div>
-                <div class=" edu-item">
-                    <div class=" item-row">
-                        <!-- no more than 4 elements -->
-                        <p class=" item-title">Business Marketing, <span class="">University of Wisconsin</span></p>
-                        <p class=" item-meta">2014 – 2017 | Milwaukee</p>
+                <h2 class="">EDUCATION</h2>
+
+                <div class=" education-item">
+                    <div class=" item-header">
+                        <span class=" item-title">Master of Business Administration (MBA)</span>
+                        <span class=" item-date">08/2013 – 07/2015</span>
+                    </div>
+                    <div class=" item-subtitle">
+                        <span class="">University</span>
+                        <span class="">Munich, Germany</span>
+                    </div>
+                </div>
+
+                <div class=" education-item">
+                    <div class=" item-header">
+                        <span class=" item-title">Bachelor of Engineering in Information Technology</span>
+                        <span class=" item-date">09/2009 – 07/2013</span>
+                    </div>
+                    <div class=" item-subtitle">
+                        <span class="">Technical University</span>
+                        <span class="">Vienna, Austria</span>
                     </div>
                 </div>
             </section>
 
-            <section id="certificates">
-                <h2 class="">Certificates</h2>
-                <div class=" section-line"></div>
-                <div class="pill-grid">
-                     <!-- MAX 3 elements in each pill container for others create new pill-grid-->
-                    <div class=" pill">Google Analytics Certified</div>
-                    <div class=" pill">HubSpot Inbound Marketing Certified</div>
+            <section id="languages">
+                <h2 class="">LANGUAGES</h2>
+                <div class=" languages-grid">
+                    <div class=" lang-item">
+                        <span class="">German</span>
+                        <div class=" dots">
+                            <span class=" dot filled"></span>
+                            <span class=" dot filled"></span>
+                            <span class=" dot filled"></span>
+                            <span class=" dot filled"></span>
+                            <span class=" dot filled"></span>
+                        </div>
+                    </div>
+                    <div class=" lang-item">
+                        <span class="">English</span>
+                        <div class=" dots">
+                            <span class=" dot filled"></span>
+                            <span class=" dot filled"></span>
+                            <span class=" dot filled"></span>
+                            <span class=" dot filled"></span>
+                            <span class=" dot"></span>
+                        </div>
+                    </div>
+                    <div class=" lang-item">
+                        <span class="">Spanish</span>
+                        <div class=" dots">
+                            <span class=" dot filled"></span>
+                            <span class=" dot filled"></span>
+                            <span class=" dot filled"></span>
+                            <span class=" dot"></span>
+                            <span class=" dot"></span>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <section id="languages">
-                <h2 class="">Languages</h2>
-                <div class="section-line"></div>
-                <div class="pill-grid">
-                    <!-- MAX 5 elements in each pill container for others create new pill-grid-->
-                    <div class=" pill">English (C2)</div>
-                    <div class=" pill">Spanish (C2)</div>
+            <section id="awards">
+                <h2 class="">AWARDS</h2>
+                <div class=" awards-item">
+                    <p class=" award-name">Innovation Award</p>
+                    <p class=" award-subtitle">The Tech GmbH</p>
+                </div>
+                <div class=" awards-item">
+                    <p class=" award-name">Product Manager of the Year</p>
+                    <p class=" award-subtitle">Delta Solutions</p>
                 </div>
             </section>
         </main>

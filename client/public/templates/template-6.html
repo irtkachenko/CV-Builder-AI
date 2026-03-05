@@ -4,17 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV - Clark Watson</title>
+    <title>CV - Citra Barus</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
         :root {
-            --bg-body: #e6e6e6;
-            --bg-container: #ebebeb;
-            --text-main: #2c3e50;
-            --line-color: #000;
-            --font-main: 'Quicksand', sans-serif;
-            --font-name: 'Dancing Script', cursive;
+            --bg-color: #ede2d5;
+            --text-color: #333;
+            --secondary-text: #555;
+            --line-color: #333;
+            --font-main: 'Inter', sans-serif;
         }
 
         * {
@@ -25,9 +24,9 @@
 
         body {
             font-family: var(--font-main);
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            line-height: 1.4;
+            background-color: #ccc;
+            color: var(--text-color);
+            line-height: 1.5;
             display: flex;
             justify-content: center;
             padding: 0;
@@ -35,145 +34,120 @@
         }
 
         .container {
-            background-color: var(--bg-container);
+            background-color: var(--bg-color);
             width: 210mm;
             min-height: 297mm;
-            padding: 50px 70px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+            padding: 60px 50px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin: 0;
         }
 
         header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             margin-bottom: 40px;
         }
 
         .header-left h1 {
-            font-family: var(--font-name);
-            font-size: 48px;
-            margin-bottom: 15px;
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
         }
 
-        .contact-info {
-            font-size: 14px;
+        .header-left p {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 6px;
+        .header-right {
+            text-align: left;
+            font-size: 13px;
+            color: var(--secondary-text);
         }
 
-        .header-right .profile-pic {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background-color: #ccc;
-            background-image: url('https://via.placeholder.com/150');
-            /* Placeholder image */
-            background-size: cover;
-            background-position: center;
+        .header-right p {
+            margin-bottom: 4px;
+        }
+
+        .header-right span {
+            font-style: italic;
         }
 
         section {
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+        }
+
+        .section-separator {
+            border: none;
+            border-top: 2px solid var(--line-color);
+            margin: 15px 0 25px 0;
         }
 
         h2 {
             font-size: 18px;
             font-weight: 700;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-
-        .section-separator {
-            height: 4px;
-            background-color: var(--line-color);
-            width: 50px;
             margin-bottom: 15px;
         }
 
-        .profile-text {
-            font-size: 14px;
-            text-align: justify;
+        .content-block {
+            margin-bottom: 25px;
         }
 
-        .exp-grid {
-            display: grid;
-            grid-template-columns: 180px 1fr;
-            gap: 30px;
-            margin-bottom: 20px;
-        }
-
-        .exp-meta {
-            font-size: 13px;
-        }
-
-        .exp-meta .date {
-            font-weight: 600;
-            margin-bottom: 3px;
-        }
-
-        .exp-content h3 {
+        .content-block h3 {
             font-size: 15px;
             font-weight: 700;
             margin-bottom: 5px;
         }
 
-        .exp-content h3 span {
-            font-weight: 500;
-            color: #555;
-        }
-
-        .exp-content p {
-            font-size: 13.5px;
-            color: #444;
-        }
-
-        .skills-list,
-        .interests-list {
-            list-style: none;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px 20px;
+        .content-block .subtitle {
             font-size: 14px;
+            font-weight: 400;
+            margin-bottom: 10px;
         }
 
-        .skills-list li::before,
-        .interests-list li::before {
-            content: "•";
-            margin-right: 8px;
-            font-weight: bold;
-        }
-
-        .lang-pills {
-            display: flex;
-            gap: 10px;
-        }
-
-        .pill {
-            border: 1px solid #000;
-            padding: 8px 18px;
-            border-radius: 6px;
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
             font-size: 13px;
-            font-weight: 500;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        .profile-summary {
+            font-size: 14px;
+            text-align: justify;
+        }
+
+        .skills-list {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .skills-list li {
+            font-size: 14px;
+            margin-bottom: 8px;
         }
 
         @media print {
             body {
+                background-color: white;
                 padding: 0;
-                background-color: #fff;
                 margin: 0;
             }
 
             .container {
                 box-shadow: none;
-                width: 100%;
                 margin: 0;
+                width: 100%;
             }
         }
     </style>
@@ -183,112 +157,81 @@
     <div class="container">
         <header>
             <div class="header-left">
-                <h1>Clark Watson</h1>
-                <div class="contact-info">
-                    <div class="contact-item">📍 Main Street 234354, New York</div>
-                    <div class="contact-item">📞 +123235245</div>
-                    <div class="contact-item">✉ hello@watson.org</div>
-                </div>
+                <h1>CITRA BARUS</h1>
+                <p>MARKETING EXPERT</p>
             </div>
             <div class="header-right">
-                <!-- <div class="profile-pic"></div> -->
+                <p>Phone: 011 223 34 56</p>
+                <p><span>Email:</span> hello@coolwebsite.co.id</p>
+                <p>Address: Jalan Bangka No. 8, Manado 12345</p>
+                <p>Portfolio: coolwebsite.co.id</p>
             </div>
         </header>
 
         <main>
-            <section id="profile">
-                <h2 class="">PROFILE</h2>
-                <div class=" section-separator"></div>
-                <p class=" profile-text">
-                    Driven and enthusiastic Web Developer with a strong passion for creating exceptional web
-                    experiences.
-                    Experienced in manual testing, test automation, tracking tools, and A/B testing. Quick learner, team
-                    player, and effective communicator. Proficient in Continuous Delivery tools. Familiar with Java and
-                    JSP.
+            <section id="profile-summary">
+                <h2 class="">PROFILE SUMMARY</h2>
+                <hr class="section-separator">
+                <p class=" profile-summary">
+                    Recent marketing graduate, proficient in market research and social media content, committed to helping 
+                    eco-friendly brands tell their stories through the right channels.
                 </p>
             </section>
 
-            <section id="experience">
-                <h2 class="">PROFESSIONAL EXPERIENCE</h2>
-                <div class=" section-separator"></div>
+            <section id="work-experience">
+                <h2 class="">WORK EXPERIENCE</h2>
+                <hr class="section-separator">
 
-                <div class=" exp-grid">
-                    <div class=" exp-meta">
-                        <p class=" date">May 2018 – present</p>
-                        <p class="">Mountain View, California</p>
-                    </div>
-                    <div class=" exp-content">
-                        <h3 class="">Google Inc., <span class="">Web Developer</span></h3>
-                        <p class="">Developed responsive and user-friendly websites utilizing HTML, CSS, and JavaScript
-                            resulting in
-                            improved user engagement and a 30% increase in site traffic. Collaborated with design and
-                            marketing teams to implement visual and interactive elements, resulting in visually stunning
-                            and
-                            highly functional websites.</p>
-                    </div>
+                <div class=" content-block">
+                    <h3 class="">Social Media Volunteer | 2033–present</h3>
+                    <p class=" subtitle">Green Environment Group</p>
+                    <ul class="">
+                        <li class="">Producing social videos and writing captions for the group's official pages</li>
+                        <li class="">Conducting trend research to ensure relevance of social media content</li>
+                        <li class="">Contributing ideas during the content planning stage</li>
+                        <li class="">Coordinating and collaborating with various brand partners and influencers</li>
+                    </ul>
                 </div>
 
-                <div class=" exp-grid">
-                    <div class=" exp-meta">
-                        <p class=" date">September 2016 – April 2018</p>
-                        <p class="">Mountain View, California</p>
-                    </div>
-                    <div class=" exp-content">
-                        <h3 class="">Wing Aviation LLC, <span class="">Junior Developer</span></h3>
-                        <p class="">Assisted in the development of front-end and back-end components for corporate
-                            websites,
-                            contributing to a 15% improvement in site usability. Collaborated with the development team
-                            to
-                            troubleshoot and resolve coding issues, resulting in a 10% reduction in application errors.
-                        </p>
-                    </div>
+                <div class=" content-block">
+                    <h3 class="">Marketing Intern | 2033–2034</h3>
+                    <p class=" subtitle">PT Lifestyle Media</p>
+                    <ul class="">
+                        <li class="">Writing social media scripts, web articles, and email newsletters</li>
+                        <li class="">Participating in brainstorming sessions for marketing campaigns and events</li>
+                        <li class="">Assisting with graphic design tasks and video editing</li>
+                    </ul>
                 </div>
             </section>
 
-            <section id="skills">
-                <h2 class="">SKILLS</h2>
-                <div class=" section-separator"></div>
+            <section id="skills-and-interests">
+                <h2 class="">SKILLS AND INTERESTS</h2>
+                <hr class="section-separator">
                 <ul class=" skills-list">
-                    <li class="">JavaScript (ECMAScript)</li>
-                    <li class="">TypeScript</li>
-                    <li class="">HTML 5 and CSS 3</li>
-                    <li class="">React.js</li>
-                    <li class="">Next.js</li>
-                    <li class="">Storybook</li>
+                    <li class="">Copywriting</li>
+                    <li class="">Basic video editing</li>
+                    <li class="">Trend research</li>
+                    <li class="">Environmental sustainability</li>
+                    <li class="">Clean living</li>
                 </ul>
             </section>
 
             <section id="education">
                 <h2 class="">EDUCATION</h2>
-                <div class=" section-separator"></div>
-                <div class=" exp-grid">
-                    <div class=" exp-meta">
-                        <p class=" date">September 2014 – June 2018</p>
-                    </div>
-                    <div class=" exp-content">
-                        <h3 class="">San Francisco Bay University, <span class="">Bachelor of Science in Computer
-                                Science</span></h3>
-                    </div>
+                <hr class="section-separator">
+
+                <div class=" content-block">
+                    <h3 class="">State University | 2030–2034</h3>
+                    <p class=" subtitle">Bachelor of Communication Science (B.Comm.)</p>
+                    <ul class="">
+                        <li class="">GPA: 3.5</li>
+                        <li class="">Member, Marketing Student Association</li>
+                        <li class="">Best Thesis Award</li>
+                    </ul>
                 </div>
             </section>
 
-            <section id="languages">
-                <h2 class="">LANGUAGES</h2>
-                <div class=" section-separator"></div>
-                <div class=" lang-pills">
-                    <div class=" pill">English</div>
-                    <div class=" pill">Spanish</div>
-                </div>
-            </section>
-
-            <section id="interests">
-                <h2 class="">INTERESTS</h2>
-                <div class=" section-separator"></div>
-                <ul class=" interests-list">
-                    <li class="">Travelling</li>
-                    <li class="">Playing Guitar</li>
-                </ul>
-            </section>
+            <hr class="section-separator">
         </main>
     </div>
 </body>

@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Loader2, Plus } from "lucide-react";
 import type { CvTemplate } from "@shared/routes";
 import { useTranslation } from "react-i18next";
+import { SmartImage } from "@/components/ui/smart-image";
 
 export default function GalleryPage() {
   const { t } = useTranslation();
@@ -64,11 +65,10 @@ export default function GalleryPage() {
               >
                 {/* Preview Image */}
                 <div className="relative aspect-[1/1.4] w-full bg-secondary overflow-hidden">
-                  <img
+                  <SmartImage
                     src={template.screenshotUrl}
                     alt={template.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=400&q=80' }}
+                    imgClassName="transition-transform duration-500 group-hover:scale-105"
                   />
 
                   {/* Overlay on Hover */}
