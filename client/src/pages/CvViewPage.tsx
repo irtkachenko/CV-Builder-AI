@@ -414,7 +414,7 @@ export default function CvViewPage() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
-            className="bg-white rounded-xl shadow-2xl overflow-hidden"
+            className="bg-white rounded-xl shadow-2xl overflow-x-hidden"
           >
             <div className="bg-gray-50 border-b border-gray-200 px-4 py-3 flex items-center justify-between">
               <div className="flex items-center gap-2">

@@ -45,9 +45,32 @@ function applyPreviewStyles(iframe: HTMLIFrameElement) {
   const style = doc.createElement("style");
   style.id = styleId;
   style.textContent = `
-    html, body {
+    html {
+      overflow-y: auto !important;
+      scrollbar-gutter: stable both-edges;
+    }
+
+    body {
       margin: 0 !important;
       overflow-x: hidden !important;
+    }
+
+    /* Optional: softer scrollbar visuals for WebKit browsers */
+    html::-webkit-scrollbar {
+      width: 10px;
+    }
+    html::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    html::-webkit-scrollbar-thumb {
+      background-color: rgba(148, 163, 184, 0.65);
+      border-radius: 9999px;
+      border: 2px solid transparent;
+      background-clip: content-box;
+      transition: background-color 160ms ease;
+    }
+    html::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(100, 116, 139, 0.75);
     }
   `;
   doc.head?.appendChild(style);
