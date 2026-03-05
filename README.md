@@ -8,7 +8,7 @@ An AI-powered web app that generates polished, professional resumes from any upl
 
 ## ✨ Features
 
-- **AI Content Extraction** — Upload a PDF, DOCX, or TXT file. The AI (powered by OpenAI GPT-4o) reads your raw content, understands it as a resume, and adapts it to the selected template.
+- **AI Content Extraction** — Upload a DOCX. file. The AI reads your raw content, understands it as a resume, and adapts it to the selected template.
 - **10 Professional Templates** — Carefully crafted HTML/CSS templates ranging from minimalist to two-column designs, with full color backgrounds.
 - **Smart PDF Generation** — Custom PDF engine that handles multi-page layouts, consistent margins, background fills, and never splits a content block mid-element.
 - **Multi-language UI** — Interface available in English and Ukrainian (i18n via i18next).
