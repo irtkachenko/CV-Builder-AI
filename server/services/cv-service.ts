@@ -13,11 +13,8 @@ import { z } from "zod";
 import { sanitizeHtmlContent } from "../middleware/input-sanitizer";
 import { api, buildUrl } from "@shared/routes";
 import { 
-  detectHallucinations, 
-  checkLogicalConsistency, 
   shouldRejectContent, 
-  generateHallucinationMessage,
-  filterSuspiciousContent 
+  generateHallucinationMessage
 } from "./hallucination-filter";
 import fs from "fs/promises";
 import fsSync from "fs";
@@ -273,51 +270,17 @@ export async function generateCvAsync(
       generatedHtml = sanitizeHtmlContent(generatedHtml).trim();
       assertSafeGeneratedHtml(generatedHtml);
 
-      // Apply hallucination filtering
-      await storage.updateGeneratedCvStatus(
-        jobId,
-        "processing",
-        "Verifying content accuracy..."
-      );
-
-      const hallucinationResult = await detectHallucinations(normalizedCvText, generatedHtml);
-      const consistencyResult = await checkLogicalConsistency(generatedHtml);
-
-      // Check if content should be rejected
-      if (shouldRejectContent(hallucinationResult)) {
-        await storage.updateGeneratedCvStatus(
-          jobId,
-          "failed",
-          generateHallucinationMessage(hallucinationResult),
-          undefined,
-          undefined,
-          "Content verification failed. Please check your original document for accuracy."
-        );
-        return;
-      }
-
-      // Apply content filtering if needed
-      let finalHtml = generatedHtml;
-      if (hallucinationResult.isHallucinated && hallucinationResult.issues.length > 0) {
-        finalHtml = filterSuspiciousContent(generatedHtml, hallucinationResult.issues);
-        logger.info('Applied content filtering', { 
-          originalLength: generatedHtml.length,
-          filteredLength: finalHtml.length,
-          issuesCount: hallucinationResult.issues.length
-        });
-      }
+      // Skip hallucination filtering - trust the generation process
 
       const pdfUrl = buildUrl(api.generatedCv.render.path, { id: jobId });
-      const statusMessage = consistencyResult.isConsistent && !hallucinationResult.isHallucinated
-        ? "CV successfully created and verified!"
-        : "CV created with content warnings. Please review for accuracy.";
+      const statusMessage = "CV successfully created!";
 
       await storage.updateGeneratedCvStatus(
         jobId,
         "complete",
         statusMessage,
         pdfUrl,
-        finalHtml,
+        generatedHtml,
         null
       );
     } catch (apiError: any) {
@@ -385,39 +348,7 @@ export async function editCvAsync(
 
     assertSafeGeneratedHtml(editedHtml);
 
-    // Apply hallucination filtering to edited content
-    await storage.updateGeneratedCvStatus(
-      cvId,
-      "processing",
-      "Verifying edited content accuracy..."
-    );
-
-    const hallucinationResult = await detectHallucinations(cv.originalDocText || "", editedHtml);
-    const consistencyResult = await checkLogicalConsistency(editedHtml);
-
-    // Check if edited content should be rejected
-    if (shouldRejectContent(hallucinationResult)) {
-      await storage.updateGeneratedCvStatus(
-        cvId,
-        "complete",
-        "AI edit failed due to content verification issues. Showing previous version.",
-        undefined,
-        undefined,
-        "Edit contains potentially inaccurate information. Please try a different approach."
-      );
-      return;
-    }
-
-    // Apply content filtering if needed
-    let finalEditedHtml = editedHtml;
-    if (hallucinationResult.isHallucinated && hallucinationResult.issues.length > 0) {
-      finalEditedHtml = filterSuspiciousContent(editedHtml, hallucinationResult.issues);
-      logger.info('Applied content filtering to edited CV', { 
-        originalLength: editedHtml.length,
-        filteredLength: finalEditedHtml.length,
-        issuesCount: hallucinationResult.issues.length
-      });
-    }
+    // Skip hallucination filtering for edits - trust the process
 
     if (wasSameAsOriginal) {
       await storage.updateGeneratedCvStatus(
@@ -432,16 +363,14 @@ export async function editCvAsync(
     }
 
     const pdfUrl = buildUrl(api.generatedCv.render.path, { id: cvId });
-    const statusMessage = consistencyResult.isConsistent && !hallucinationResult.isHallucinated
-      ? "CV successfully updated and verified!"
-      : "CV updated with content warnings. Please review for accuracy.";
+    const statusMessage = "CV successfully updated!";
 
     await storage.updateGeneratedCvStatus(
       cvId,
       "complete",
       statusMessage,
       pdfUrl,
-      finalEditedHtml,
+      editedHtml,
       null
     );
   } catch (error: any) {

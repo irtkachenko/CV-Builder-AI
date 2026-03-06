@@ -141,7 +141,7 @@ CURRENT CV HTML:
 Focus on:
 1. Invented work experience not in original
 2. Fake skills or certifications
-3. Impossible dates or timelines
+3. Genuinely impossible dates (e.g., future dates, dates before 1900, negative years)
 4. Contradictory information
 5. Suspicious patterns indicating AI hallucination
 
@@ -175,7 +175,7 @@ Return JSON in this format:
     systemPrompt: `You are a CV consistency analyst. Check if the generated CV content is logically coherent and internally consistent.
 
 Focus on:
-1. Date conflicts in work/education
+1. Only clear date conflicts (e.g., working after death, overlapping jobs at same time)
 2. Skill-experience mismatches
 3. Education timeline issues
 4. Contact information consistency

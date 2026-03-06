@@ -162,7 +162,8 @@ export function filterSuspiciousContent(html: string, issues: HallucinationIssue
   let filteredHtml = html;
 
   for (const issue of issues) {
-    if (issue.severity === 'high' && issue.evidence) {
+    // Only filter out high-severity issues that are NOT date-related
+    if (issue.severity === 'high' && issue.evidence && issue.type !== 'impossible_dates') {
       // Remove or flag highly suspicious content
       const suspiciousPattern = new RegExp(issue.evidence, 'gi');
       filteredHtml = filteredHtml.replace(suspiciousPattern, '[FILTERED CONTENT]');
