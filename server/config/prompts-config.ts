@@ -66,9 +66,7 @@ Output requirements:
     userPrompt: `Inject CV data into provided HTML template.
 
 Requirements:
-Detect language from CV content and keep output in that same language.
-Preserve template visual style exactly: CSS, classes, typography, spacing, and overall look.
-Adapt structure to CV content:
+Detect language from CV content and keep output in that same language, but if user requests a specific language here "{{additionalUserPrompt}}", follow their request.
 Do not remove sections that have data; if a section has more items than template, clone/add blocks as needed.
 Do not invent sections or content not present in source CV.
 Keep data in correct semantic blocks:
