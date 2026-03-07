@@ -10,7 +10,6 @@ import { usePollingJob } from "@/hooks/use-generate";
 import { useQueryClient } from "@tanstack/react-query";
 import { Textarea } from "@/components/ui/textarea";
 import { useTranslation } from "react-i18next";
-import { DEFAULT_EDIT_TEMPERATURE, MODEL_TEMPERATURE_MAX, MODEL_TEMPERATURE_MIN } from "@shared/config";
 import { useCvIframePreview } from "@/hooks/use-cv-iframe-preview";
 
 const AI_EDIT_PROMPT_MIN_LENGTH = 10;
@@ -38,7 +37,6 @@ export default function CvViewPage() {
   const [isAiDialogOpen, setIsAiDialogOpen] = useState(false);
   const [aiPrompt, setAiPrompt] = useState("");
   const [useOriginalDocumentContext, setUseOriginalDocumentContext] = useState(false);
-  const [editTemperature, setEditTemperature] = useState(DEFAULT_EDIT_TEMPERATURE);
   const [isSubmittingAiEdit, setIsSubmittingAiEdit] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -229,7 +227,7 @@ export default function CvViewPage() {
         body: JSON.stringify({
           prompt: trimmedPrompt,
           useOriginalDocumentContext: hasOriginalDocumentContext ? useOriginalDocumentContext : false,
-          temperature: editTemperature,
+          temperature: 0.5,
         }),
       });
 
@@ -295,7 +293,6 @@ export default function CvViewPage() {
 
       setIsAiDialogOpen(false);
       setAiPrompt("");
-      setEditTemperature(DEFAULT_EDIT_TEMPERATURE);
       toast({
         title: t("cv_view.toasts.ai_edit_started_title"),
         description: t("cv_view.toasts.ai_edit_started_desc"),
@@ -377,7 +374,6 @@ export default function CvViewPage() {
               <button
                 onClick={() => {
                   setUseOriginalDocumentContext(false);
-                  setEditTemperature(DEFAULT_EDIT_TEMPERATURE);
                   setIsAiDialogOpen(true);
                 }}
                 disabled={!canEditWithAi}
@@ -566,105 +562,88 @@ export default function CvViewPage() {
             >
               <div className="max-w-3xl mx-auto pointer-events-auto">
                 <div className="rounded-2xl border border-gray-200 bg-white/95 backdrop-blur-sm shadow-2xl overflow-hidden">
-                <div className="px-4 sm:px-6 py-4 border-b border-gray-200 flex items-start justify-between gap-4">
-                  <div>
-                    <h2 className="text-lg sm:text-xl font-semibold text-gray-900">{t("cv_view.ai_panel.title")}</h2>
-                    <p className="text-sm text-gray-600 mt-1">
-                      {t("cv_view.ai_panel.description")}
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setIsAiDialogOpen(false)}
-                    disabled={isSubmittingAiEdit}
-                    className="p-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
-                    aria-label={t("cv_view.ai_panel.close_aria")}
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
-
-                <div className="px-4 sm:px-6 py-4 space-y-3">
-                  <Textarea
-                    value={aiPrompt}
-                    onChange={(e) => setAiPrompt(e.target.value)}
-                    placeholder={t("cv_view.ai_panel.placeholder")}
-                    className="min-h-[96px] max-h-[220px] resize-y"
-                    maxLength={AI_EDIT_PROMPT_MAX_LENGTH}
-                    disabled={isSubmittingAiEdit}
-                  />
-                  <label className="flex items-start gap-3 p-3 rounded-lg border border-gray-200 bg-gray-50">
-                    <input
-                      type="checkbox"
-                      className="mt-0.5 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 disabled:opacity-50"
-                      checked={useOriginalDocumentContext}
-                      onChange={(e) => setUseOriginalDocumentContext(e.target.checked)}
-                      disabled={isSubmittingAiEdit || !hasOriginalDocumentContext}
-                    />
+                  <div className="px-4 sm:px-6 py-4 border-b border-gray-200 flex items-start justify-between gap-4">
                     <div>
-                      <p className="text-sm font-medium text-gray-800">
-                        {t("cv_view.ai_panel.use_original_context_label")}
-                      </p>
-                      <p className="text-xs text-gray-600 mt-0.5">
-                        {hasOriginalDocumentContext
-                          ? t("cv_view.ai_panel.use_original_context_hint")
-                          : t("cv_view.ai_panel.use_original_context_unavailable")}
+                      <h2 className="text-lg sm:text-xl font-semibold text-gray-900">{t("cv_view.ai_panel.title")}</h2>
+                      <p className="text-sm text-gray-600 mt-1">
+                        {t("cv_view.ai_panel.description")}
                       </p>
                     </div>
-                  </label>
-                  <div className="flex items-center justify-between gap-4">
-                    <p className="text-xs text-gray-500">
-                      {t("cv_view.ai_panel.hint")}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {aiPrompt.length}/{AI_EDIT_PROMPT_MAX_LENGTH}
-                    </p>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <p className="text-sm font-medium text-gray-800">{t("cv_view.ai_panel.temperature_label")}</p>
-                      <p className="text-xs text-gray-500">{editTemperature.toFixed(2)}</p>
-                    </div>
-                    <input
-                      type="range"
-                      min={MODEL_TEMPERATURE_MIN}
-                      max={MODEL_TEMPERATURE_MAX}
-                      step={0.05}
-                      value={editTemperature}
-                      onChange={(e) => setEditTemperature(Number(e.target.value))}
+                    <button
+                      type="button"
+                      onClick={() => setIsAiDialogOpen(false)}
                       disabled={isSubmittingAiEdit}
-                      className="w-full accent-indigo-600"
+                      className="p-2 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
+                      aria-label={t("cv_view.ai_panel.close_aria")}
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+
+                  <div className="px-4 sm:px-6 py-4 space-y-3">
+                    <Textarea
+                      value={aiPrompt}
+                      onChange={(e) => setAiPrompt(e.target.value)}
+                      placeholder={t("cv_view.ai_panel.placeholder")}
+                      className="min-h-[96px] max-h-[220px] resize-y"
+                      maxLength={AI_EDIT_PROMPT_MAX_LENGTH}
+                      disabled={isSubmittingAiEdit}
                     />
-                    <p className="text-xs text-gray-500">{t("cv_view.ai_panel.temperature_hint")}</p>
+                    <label className="flex items-start gap-3 p-3 rounded-lg border border-gray-200 bg-gray-50">
+                      <input
+                        type="checkbox"
+                        className="mt-0.5 h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 disabled:opacity-50"
+                        checked={useOriginalDocumentContext}
+                        onChange={(e) => setUseOriginalDocumentContext(e.target.checked)}
+                        disabled={isSubmittingAiEdit || !hasOriginalDocumentContext}
+                      />
+                      <div>
+                        <p className="text-sm font-medium text-gray-800">
+                          {t("cv_view.ai_panel.use_original_context_label")}
+                        </p>
+                        <p className="text-xs text-gray-600 mt-0.5">
+                          {hasOriginalDocumentContext
+                            ? t("cv_view.ai_panel.use_original_context_hint")
+                            : t("cv_view.ai_panel.use_original_context_unavailable")}
+                        </p>
+                      </div>
+                    </label>
+                    <div className="flex items-center justify-between gap-4">
+                      <p className="text-xs text-gray-500">
+                        {t("cv_view.ai_panel.hint")}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {aiPrompt.length}/{AI_EDIT_PROMPT_MAX_LENGTH}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="px-4 sm:px-6 py-4 border-t border-gray-200 flex items-center justify-end gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setIsAiDialogOpen(false)}
+                      className="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100"
+                      disabled={isSubmittingAiEdit}
+                    >
+                      {t("common.close")}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSubmitAiEdit}
+                      className="px-4 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50"
+                      disabled={isSubmittingAiEdit}
+                    >
+                      {isSubmittingAiEdit ? (
+                        <span className="inline-flex items-center gap-2">
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          {t("common.sending")}
+                        </span>
+                      ) : (
+                        t("common.send")
+                      )}
+                    </button>
                   </div>
                 </div>
-
-                <div className="px-4 sm:px-6 py-4 border-t border-gray-200 flex items-center justify-end gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setIsAiDialogOpen(false)}
-                    className="px-4 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100"
-                    disabled={isSubmittingAiEdit}
-                  >
-                    {t("common.close")}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleSubmitAiEdit}
-                    className="px-4 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50"
-                    disabled={isSubmittingAiEdit}
-                  >
-                    {isSubmittingAiEdit ? (
-                      <span className="inline-flex items-center gap-2">
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        {t("common.sending")}
-                      </span>
-                    ) : (
-                      t("common.send")
-                    )}
-                  </button>
-                </div>
-              </div>
               </div>
             </motion.div>
           </>

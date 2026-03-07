@@ -3,7 +3,6 @@ import { Sparkles, Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { FileUploadSection } from "./FileUploadSection";
 import { GenerationControls } from "./GenerationControls";
-import { DEFAULT_GENERATION_TEMPERATURE } from "@shared/config";
 
 interface GenerateFormProps {
   onSubmit: (e: React.FormEvent) => void;
@@ -24,7 +23,6 @@ export function GenerateForm({
   
   const [useGenerationPrompt, setUseGenerationPrompt] = useState(false);
   const [generationPrompt, setGenerationPrompt] = useState("");
-  const [generationTemperature, setGenerationTemperature] = useState(DEFAULT_GENERATION_TEMPERATURE);
 
   return (
     <div className="w-full md:w-3/5 p-4 sm:p-6 lg:p-8 flex flex-col max-h-[58vh] md:max-h-[85vh]">
@@ -50,10 +48,8 @@ export function GenerateForm({
           <GenerationControls
             useGenerationPrompt={useGenerationPrompt}
             generationPrompt={generationPrompt}
-            generationTemperature={generationTemperature}
             onPromptToggle={setUseGenerationPrompt}
             onPromptChange={setGenerationPrompt}
-            onTemperatureChange={setGenerationTemperature}
             disabled={isPending}
           />
 

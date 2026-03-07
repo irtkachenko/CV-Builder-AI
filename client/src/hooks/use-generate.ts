@@ -10,7 +10,6 @@ type GenerateCvInput = {
   templateId: number;
   file: File;
   generationPrompt?: string;
-  temperature?: number;
 };
 
 export function useGenerateCv() {
@@ -25,9 +24,7 @@ export function useGenerateCv() {
       if (data.generationPrompt?.trim()) {
         formData.append('generationPrompt', data.generationPrompt.trim());
       }
-      if (typeof data.temperature === "number") {
-        formData.append("temperature", data.temperature.toString());
-      }
+      formData.append("temperature", "0.5");
 
       const res = await fetch(api.generate.start.path, {
         method: api.generate.start.method,

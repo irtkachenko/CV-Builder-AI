@@ -6,7 +6,6 @@ import { useGenerateCv } from "@/hooks/use-generate";
 import { useToast } from "@/hooks/use-toast";
 import { TemplatePreview } from "./generate/TemplatePreview";
 import { GenerateForm } from "./generate/GenerateForm";
-import { DEFAULT_GENERATION_TEMPERATURE } from "@shared/config";
 import { useTranslation } from "react-i18next";
 import type { CvTemplate } from "@shared/routes";
 
@@ -21,7 +20,6 @@ export function GenerateModal({ template, isOpen, onClose }: GenerateModalProps)
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [generationPrompt, setGenerationPrompt] = useState("");
-  const [generationTemperature, setGenerationTemperature] = useState(DEFAULT_GENERATION_TEMPERATURE);
 
   const { mutate: generateCv, isPending } = useGenerateCv();
   const [, setLocation] = useLocation();
@@ -30,7 +28,6 @@ export function GenerateModal({ template, isOpen, onClose }: GenerateModalProps)
   const handleClose = () => {
     setSelectedFile(null);
     setGenerationPrompt("");
-    setGenerationTemperature(DEFAULT_GENERATION_TEMPERATURE);
     onClose();
   };
 
@@ -72,7 +69,6 @@ export function GenerateModal({ template, isOpen, onClose }: GenerateModalProps)
         templateId: template.id,
         file: selectedFile,
         generationPrompt: generationPrompt.trim() || undefined,
-        temperature: generationTemperature,
       }, {
         onSuccess: (response) => {
           toast({

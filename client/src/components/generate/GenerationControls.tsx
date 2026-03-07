@@ -1,23 +1,18 @@
-import { DEFAULT_GENERATION_TEMPERATURE, MODEL_TEMPERATURE_MAX, MODEL_TEMPERATURE_MIN } from "@shared/config";
 import { useTranslation } from "react-i18next";
 
 interface GenerationControlsProps {
   useGenerationPrompt: boolean;
   generationPrompt: string;
-  generationTemperature: number;
   onPromptToggle: (checked: boolean) => void;
   onPromptChange: (value: string) => void;
-  onTemperatureChange: (value: number) => void;
   disabled?: boolean;
 }
 
 export function GenerationControls({
   useGenerationPrompt,
   generationPrompt,
-  generationTemperature,
   onPromptToggle,
   onPromptChange,
-  onTemperatureChange,
   disabled = false
 }: GenerationControlsProps) {
   const { t } = useTranslation();
@@ -56,30 +51,6 @@ export function GenerationControls({
         )}
       </div>
 
-      {/* Temperature Control */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <p className="text-sm font-medium text-foreground">
-            {t("modal.temperature_label")}
-          </p>
-          <p className="text-xs text-muted-foreground">
-            {generationTemperature.toFixed(2)}
-          </p>
-        </div>
-        <input
-          type="range"
-          min={MODEL_TEMPERATURE_MIN}
-          max={MODEL_TEMPERATURE_MAX}
-          step={0.05}
-          value={generationTemperature}
-          onChange={(e) => onTemperatureChange(Number(e.target.value))}
-          disabled={disabled}
-          className="w-full accent-primary"
-        />
-        <p className="text-xs text-muted-foreground">
-          {t("modal.temperature_hint")}
-        </p>
-      </div>
     </div>
   );
 }
